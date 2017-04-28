@@ -61,6 +61,7 @@ if [[ -n $VERSION_ON_LAST_COMMIT ]]; then
     docker tag $IMAGE $IMAGE:$VERSION_ON_LAST_COMMIT
     docker login -u $ARTIFACTORY_CI_USER -p $ARTIFACTORY_CI_PASSWORD $ARTIFACTORY_DOCKER_REGISTRY
     docker push $IMAGE:$VERSION_ON_LAST_COMMIT
+    docker rmi $IMAGE:$VERSION_ON_LAST_COMMIT
 else
     printerror "Aucun tag trouvé sur le dernier commit $LAST_COMMIT_ID"
 fi
