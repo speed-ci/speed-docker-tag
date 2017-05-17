@@ -1,3 +1,6 @@
+variables:
+  NO_CACHE: true
+
 dockerize:
   script: dockerize
   tags:
