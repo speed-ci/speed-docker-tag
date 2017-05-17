@@ -1,5 +1,5 @@
 variables:
-  NO_CACHE: true
+  NO_CACHE: "true"
 
 dockerize:
   script: dockerize
