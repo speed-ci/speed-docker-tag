@@ -17,7 +17,7 @@ VERSION_ON_LAST_COMMIT=$(curl --silent --noproxy '*' --header "PRIVATE-TOKEN: $G
 if [[ -n $VERSION_ON_LAST_COMMIT ]]; then
     ARTIFACTORY_IMAGE_ID=`curl -u $ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD --silent --noproxy '*' "$ARTIFACTORY_URL/artifactory/docker/$PROJECT_NAMESPACE/$PROJECT_NAME/$VERSION_ON_LAST_COMMIT/manifest.json" | jq .config.digest | tr -d '"'`
     if [[ $ARTIFACTORY_IMAGE_ID == "null" ]]; then
-        docker login -u $ARTIFACTORY_CI_USER -p $ARTIFACTORY_CI_PASSWORD $ARTIFACTORY_DOCKER_REGISTRY
+        docker login -u $ARTIFACTORY_USER -p $ARTIFACTORY_PASSWORD $ARTIFACTORY_DOCKER_REGISTRY
         docker pull $IMAGE
         docker tag $IMAGE $IMAGE:$VERSION_ON_LAST_COMMIT
         docker push $IMAGE:$VERSION_ON_LAST_COMMIT
