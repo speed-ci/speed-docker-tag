@@ -11,7 +11,7 @@ int_gitlab_api_env
 LAST_COMMIT_ID=$(git log --format="%H" -n 1)
 
 IMAGE=$ARTIFACTORY_DOCKER_REGISTRY/$PROJECT_NAMESPACE/$PROJECT_NAME
-PROJECT_ID=`myCurl --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$PROJECT_NAME" | jq --arg project_namespace "$PROJECT_NAMESPACE" '.[] | select(.namespace.name == "\($project_namespace)") | .id'`
+PROJECT_ID=`myCurl --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$PROJECT_NAME" | jq --arg project_namespace "$PROJECT_NAMESPACE" --arg project_name "$PROJECT_NAME" '.[] | select(.namespace.name == "\($project_namespace)" and .name == "\($project_name)") | .id'`
 VERSION_ON_LAST_COMMIT=$(myCurl --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" | jq -r --arg commit_id "$LAST_COMMIT_ID" '.[] | select(.commit.id == "\($commit_id)") | .name')
 
 if [[ -n $VERSION_ON_LAST_COMMIT ]]; then
